@@ -1,8 +1,9 @@
 ;;; sublime.el --- SublimeText emulation
 ;;;
-;;; Copyright (C) 2012 Lorenzo Villani.
+;;; Copyright (C) 2012 Lorenzo Villani, Aaron Culich.
 ;;;
 ;;; Author: Lorenzo Villani <lorenzo@villani.me>
+;;; Maintainer: Aaron Culich <aculich@gmail.com>
 ;;; URL: https://github.com/lvillani/sublime.el
 ;;;
 ;;; This file is not part of GNU Emacs.
