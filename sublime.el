@@ -256,7 +256,7 @@ It binds C-S-p to `SMEX' and C-p to `FIND-FILE-IN-PROJECT'."
   (sublime-setup-mode-assoc)
   (sublime-setup-recentf)
   ;; Keyboard settings
-  (sublime-setup-cua-keybindings)
+  ;; (sublime-setup-cua-keybindings)
   (sublime-setup-go-to-anything)
   (sublime-setup-snippets)
   ;; UI Settings
