@@ -214,8 +214,7 @@ It binds C-S-p to `SMEX' and C-p to `FIND-FILE-IN-PROJECT'."
 (defun sublime-setup-ui ()
   "Various user interface customizations."
   (interactive)
-  (custom-set-variables '(cursor-type 'bar)
-                        '(echo-keystrokes 0.01)
+  (custom-set-variables '(echo-keystrokes 0.01)
 						'(inhibit-startup-screen t)
 						'(linum-format "  %d  ")
                         '(show-paren-delay 0)
