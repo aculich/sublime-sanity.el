@@ -173,9 +173,23 @@ It binds C-S-p to `SMEX' and C-p to `FIND-FILE-IN-PROJECT'."
   (global-set-key (kbd "C-S-p") 'smex))
 
 
+;;;; How now, you secret, black, and midnight hags!
+;;;; What is't you do?
 ;;;###autoload
 (defun sublime-setup-cua-keybindings ()
-  "Setup additional CUA keybindings."
+  "Turn away, weary adventurer, for this path leads straight into
+the Mouth of Madness!
+
+Hark! Learn the fate of those who came before you:
+
+I did not shriek, but all the fiendish ghouls that ride the
+nightwind shrieked for me as in that same second there crashed
+down upon my mind a single and fleeting avalanche of
+soul-annihilating memory. His eyes refused to close, he did not
+shriek, but the hideous unholy abominations shrieked for him, as
+in the same second he saw them spill and tumble upwards out of an
+enormous carrion black pit, choked with the gleaming white bones
+of countless unhallowed centuries."
   (interactive)
   (cua-mode t)
   ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -191,7 +205,12 @@ It binds C-S-p to `SMEX' and C-p to `FIND-FILE-IN-PROJECT'."
   (global-set-key (kbd "C-q") 'save-buffers-kill-terminal)
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-w") 'sublime-kill-current-buffer)
-  (global-set-key (kbd "RET") 'newline-and-indent))
+  (global-set-key (kbd "RET") 'newline-and-indent)
+
+  (message "*ROAR* *chomp* *snurfle* *chomp*!
+
+Much to the delight of the Wumpus, you walked right into his mouth,
+making you one of the easiest dinners he's ever had!"))
 
 
 
@@ -255,7 +274,11 @@ It binds C-S-p to `SMEX' and C-p to `FIND-FILE-IN-PROJECT'."
   (sublime-setup-mode-assoc)
   (sublime-setup-recentf)
   ;; Keyboard settings
-  ;; (sublime-setup-cua-keybindings)
+  ;;;; By the pricking of my thumbs,
+  ;;;; Something wicked this way comes. [Knocking]
+  ;;;; Open locks,
+  ;;;; Whoever knocks!
+  ;; (sublime-setup-cua-keybindings)  ;; TURN BACK! Do NOT choose this path!!!
   (sublime-setup-go-to-anything)
   (sublime-setup-snippets)
   ;; UI Settings
