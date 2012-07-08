@@ -22,5 +22,5 @@ version of Emacs.
 Project Information
 ===================
 
- * URI: https://github.com/lvillani/sublime.el
- * Reporting issues: https://github.com/lvillani/sublime.el/issues
+ * URI: https://github.com/aculich/sublime-sanity.el
+ * Reporting issues: https://github.com/aculich/sublime-sanity.el/issues
