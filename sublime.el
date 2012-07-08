@@ -169,7 +169,7 @@ It binds C-S-p to `SMEX' and C-p to `FIND-FILE-IN-PROJECT'."
   (ido-mode t)
   (ido-ubiquitous t)
   (smex-initialize)
-  (global-set-key (kbd "C-p") 'find-file-in-project)
+  (global-set-key (kbd "A-p") 'find-file-in-project)
   (global-set-key (kbd "C-S-p") 'smex))
 
 
