@@ -82,28 +82,30 @@
 (defun sublime-setup-clipboard ()
   "Make use of X11 clipboard on *nix"
   (interactive)
-  (custom-set-variables '(mouse-drag-copy-region nil)
-                        '(x-select-enable-primary nil)
-                        '(x-select-enable-clipboard t)))
+  (setq
+   mouse-drag-copy-region nil
+   x-select-enable-primary nil
+   x-select-enable-clipboard t))
 
 
 ;;;###autoload
 (defun sublime-setup-elpa-repositories ()
   "Configure ELPA to use the GNU and Marmalade repositories."
-  (custom-set-variables '(package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                                             ("marmalade" . "http://marmalade-repo.org/packages/")))))
+  (setq package-archives
+        '(("gnu" . "http://elpa.gnu.org/packages/")
+          ("marmalade" . "http://marmalade-repo.org/packages/"))))
 
 
 ;;;###autoload
 (defun sublime-setup-file-hooks ()
-  (custom-set-variables '(auto-save-default nil)
-                        '(backup-inhibited t)
-                        '(fill-column 78)
-						'(indent-tabs-mode nil)
-                        '(indicate-empty-lines t)
-                        '(require-final-newline t)
-                        '(tab-width 4)
-                        '(ruby-indent-level tab-width))
+  (setq auto-save-default nil
+        backup-inhibited t
+        fill-column 78
+        indent-tabs-mode nil
+        indicate-empty-lines t
+        require-final-newline t
+        tab-width 4
+        ruby-indent-level tab-width)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (add-hook 'before-save-hook 'time-stamp)
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p nil t))
@@ -113,9 +115,9 @@
 (defun sublime-setup-indentation ()
   "Homogeneous indentation level for various modes."
   (interactive)
-  (custom-set-variables '(tab-width 4)
-                        '(puppet-indent-level tab-width)
-                        '(ruby-indent-level tab-width)))
+  (setq tab-width 4
+        puppet-indent-level tab-width
+        ruby-indent-level tab-width))
 
 
 ;;;###autoload
@@ -130,7 +132,7 @@
 ;;;###autoload
 (defun sublime-setup-recentf ()
   "Configures `recentf' for use in combination with `ido-mode'"
-  (custom-set-variables '(recentf-max-saved-items 75))
+  (setq recentf-max-saved-items 75)
   (recentf-mode t)
   (global-set-key (kbd "C-x C-r") 'sublime-open-recent-file))
 
@@ -156,15 +158,15 @@
   "Emulates SublimeText `Go-To Anything' feature using IDO and SMEX.
 It binds C-S-p to `SMEX' and C-p to `FIND-FILE-IN-PROJECT'."
   (interactive)
-  (custom-set-variables	'(ido-create-new-buffer 'always)
-						'(ido-everywhere t)
-						'(ido-ignore-extensions t)
-						'(ido-use-filename-at-point 'guess)
-                        '(ido-auto-merge-work-directories-length nil)
-                        '(ido-enable-prefix nil)
-                        '(ido-max-prospects 8)
-                        '(ido-use-filename-at-point 'guess)
-                        '(ido-enable-flex-matching t))
+  (setq ido-create-new-buffer 'always
+        ido-everywhere t
+        ido-ignore-extensions t
+        ido-use-filename-at-point 'guess
+        ido-auto-merge-work-directories-length nil
+        ido-enable-prefix nil
+        ido-max-prospects 8
+        ido-use-filename-at-point 'guess
+        ido-enable-flex-matching t)
   (setq ffip-limit 2048)
   (ido-mode t)
   (ido-ubiquitous t)
@@ -233,11 +235,11 @@ making you one of the easiest dinners he's ever had!"))
 (defun sublime-setup-ui ()
   "Various user interface customizations."
   (interactive)
-  (custom-set-variables '(echo-keystrokes 0.01)
-						'(inhibit-startup-screen t)
-						'(linum-format "  %d  ")
-                        '(show-paren-delay 0)
-                        '(frame-title-format '("%f - " user-real-login-name "@" system-name)))
+  (setq echo-keystrokes 0.01
+        inhibit-startup-screen t
+        linum-format "  %d  "
+        show-paren-delay 0
+        frame-title-format '("%f - " user-real-login-name "@" system-name))
   (load-theme 'monokai)
   (fset 'yes-or-no-p 'y-or-n-p)
   (blink-cursor-mode t)
