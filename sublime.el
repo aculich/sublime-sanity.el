@@ -22,13 +22,11 @@
 ;;; along with this program; if not, write to the Free Software
 ;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ;;;
-;;; Please note that this Emacs package is being developed to cover _my_ needs
-;;; before those of anyone else. I will not include each and every patch you
-;;; send me.
-;;;
+
 
 (unless (>= 24 emacs-major-version)
   (error "sublime.el requires Emacs 24 or later."))
+
 
 ;;; ---------------------------------------------------------------------------
 ;;; Utility Functions
@@ -36,7 +34,7 @@
 
 ;;;###autoload
 (defun sublime-escape-quit ()
-  "Forcefully quit anything which keeps the minibuffer busy."
+  "Forcefully closes anything which keeps the minibuffer busy."
   (interactive)
   (when (active-minibuffer-window)
     (select-window (active-minibuffer-window)))
@@ -45,7 +43,7 @@
 
 ;;;###autoload
 (defun sublime-kill-current-buffer ()
-  "Kills the current buffer"
+  "Kills the current buffer."
   (interactive)
   (kill-buffer (current-buffer)))
 
@@ -65,27 +63,41 @@
   (find-file (ido-completing-read "Find recent file: " recentf-list)))
 
 
+;;;###autoload
+(defun sublime-indent-buffer ()
+  "Re-indents the current buffer."
+  (interactive)
+  (save-excursion
+    (indent-region (point-min) (point-max) nil)))
+
+
 
 
 ;;; ---------------------------------------------------------------------------
 ;;; Under The Hood
 ;;; ---------------------------------------------------------------------------
 
+;;;###autoload
 (defun sublime-setup-electric ()
   "Enables automatic matching of parentheses."
-  (electric-indent-mode)
+  ; (electric-indent-mode) ; - DISABLED: Annoying for some users.
   (electric-layout-mode)
   (electric-pair-mode))
 
 
 ;;;###autoload
 (defun sublime-setup-clipboard ()
-  "Make use of X11 clipboard on *nix"
+  "Improve interaction with X11 clipboard giving Emacs the 'feel'
+of a modern X11 application."
   (interactive)
-  (setq
-   mouse-drag-copy-region nil
-   x-select-enable-primary nil
-   x-select-enable-clipboard t))
+  (global-set-key "\C-w" 'clipboard-kill-region)
+  (global-set-key "\C-y" 'clipboard-yank)
+  (global-set-key "\M-w" 'clipboard-kill-ring-save)
+  (global-set-key [mouse-2] 'mouse-yank-primary)
+  (setq mouse-drag-copy-region nil)
+  (setq select-active-regions t)
+  (setq x-select-enable-clipboard t)
+  (setq x-select-enable-primary nil))
 
 
 ;;;###autoload
@@ -98,14 +110,18 @@
 
 ;;;###autoload
 (defun sublime-setup-file-hooks ()
-  (setq auto-save-default nil
-        backup-inhibited t
-        fill-column 78
-        indent-tabs-mode nil
-        indicate-empty-lines t
-        require-final-newline t
-        tab-width 4
-        ruby-indent-level tab-width)
+  (custom-set-variables '(auto-save-default nil)
+                        '(backup-inhibited t)
+                        '(fill-column 78)
+			'(indent-tabs-mode nil)
+                        '(indicate-empty-lines t)
+                        '(require-final-newline t)
+                        '(tab-width 4)
+                        '(ruby-indent-level tab-width))
+  ;; Flyspell
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  ;; File Manipulation
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (add-hook 'before-save-hook 'time-stamp)
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p nil t))
@@ -178,7 +194,7 @@ It binds C-S-p to `SMEX' and C-p to `FIND-FILE-IN-PROJECT'."
 ;;;; How now, you secret, black, and midnight hags!
 ;;;; What is't you do?
 ;;;###autoload
-(defun sublime-setup-cua-keybindings ()
+(defun sublime-setup-keybindings ()
   "Turn away, weary adventurer, for this path leads straight into
 the Mouth of Madness!
 
@@ -193,17 +209,16 @@ in the same second he saw them spill and tumble upwards out of an
 enormous carrion black pit, choked with the gleaming white bones
 of countless unhallowed centuries."
   (interactive)
+  ;; CUA Mode
   (cua-mode t)
-  ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "<escape>") 'sublime-escape-quit)
-  (global-set-key (kbd "<f6>") 'flyspell-prog-mode)
+  ;; Editing
   (global-set-key (kbd "C-/") 'comment-or-uncomment-region)
   (global-set-key (kbd "C-<backspace>") 'backward-kill-word)
+  (global-set-key (kbd "C-a") 'mark-whole-buffer)
+  (global-set-key (kbd "RET") 'newline-and-indent)
+  ;; Buffer Navigation
   (global-set-key (kbd "C-<next>") 'next-buffer)
   (global-set-key (kbd "C-<prior>") 'previous-buffer)
-  (global-set-key (kbd "C-a") 'mark-whole-buffer)
-  (global-set-key (kbd "C-f") 'isearch-forward)
-  (global-set-key (kbd "C-o") 'sublime-open-file)
   (global-set-key (kbd "C-q") 'save-buffers-kill-terminal)
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-w") 'sublime-kill-current-buffer)
@@ -228,7 +243,7 @@ making you one of the easiest dinners he's ever had!"))
   (when (string-equal system-type "gnu/linux")
     (if (find-font (font-spec :name "Ubuntu Mono"))
         (set-default-font "Ubuntu Mono-12")
-      (set-default-font "Monospace-12"))))
+      (set-default-font "Monospace-11"))))
 
 
 ;;;###autoload
@@ -248,11 +263,13 @@ making you one of the easiest dinners he's ever had!"))
   (global-hl-line-mode t)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
+  ;; Truncate lines everywhere
+  (set-default 'truncate-lines t)
+  (setq truncate-partial-width-windows nil)
   ;; Show Paren mode
   (show-paren-mode t)
   (set-face-attribute 'show-paren-match-face nil :underline t)
   ;; ---------------
-  (toggle-truncate-lines t)
   (tool-bar-mode -1)
   (which-function-mode t))
 
@@ -260,14 +277,14 @@ making you one of the easiest dinners he's ever had!"))
 
 
 ;;; ---------------------------------------------------------------------------
-;;; Wholesale Activation
+;;; Activates all customizations.
 ;;; ---------------------------------------------------------------------------
 
 ;;;###autoload
 (defun sublime-activate ()
-  "Enables various customizations to make Emacs similar to Sublime Text"
+  "Enables all customization options provided by `sublime.el'."
   (interactive)
-  ;; Under-the hood settings
+  ;; Under the Hood Settings
   (sublime-setup-clipboard)
   (sublime-setup-electric)
   (sublime-setup-elpa-repositories)
@@ -280,7 +297,7 @@ making you one of the easiest dinners he's ever had!"))
   ;;;; Something wicked this way comes. [Knocking]
   ;;;; Open locks,
   ;;;; Whoever knocks!
-  ;; (sublime-setup-cua-keybindings)  ;; TURN BACK! Do NOT choose this path!!!
+  ;; (sublime-setup-keybindings)  ;; TURN BACK! Do NOT choose this path!!!
   (sublime-setup-go-to-anything)
   (sublime-setup-snippets)
   ;; UI Settings
@@ -291,6 +308,6 @@ making you one of the easiest dinners he's ever had!"))
 (progn
   (sublime-activate))
 
-(provide 'sublime-emacs)
+(provide 'sublime)
 
 ;;; sublime.el ends here
