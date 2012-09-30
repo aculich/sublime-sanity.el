@@ -167,12 +167,14 @@ of a modern X11 application."
          (name "yasnippet")
          (symbol (intern name))
          (yasnippet-dir
-          (when (package--dir name
-                              (package-version-join
-                               (package-desc-vers pkg))))))
+          (package--dir name
+                        (package-version-join
+                         (package-desc-vers pkg)))))
     (when yasnippet-dir
-      (load (expand-file-name name yasnippet-dir))
-      (yas/load-directory (expand-file-name "snippets" yasnippet-dir)))
+      (require 'yasnippet)
+      (add-to-list 'yas/root-directory
+                   (expand-file-name "snippets" yasnippet-dir) t)
+      (yas/reload-all))
     (yas/global-mode)))
 
 
