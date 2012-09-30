@@ -163,15 +163,16 @@ of a modern X11 application."
 (defun sublime-setup-snippets ()
   "Enables emacs-wise snippets support using YASnippet."
   (interactive)
-  (let* ((name "yasnippet")
+  (let* ((pkg (cdr (assq 'yasnippet package-alist)))
+         (name "yasnippet")
          (symbol (intern name))
          (yasnippet-dir
-         (package--dir name
-          (package-version-join
-           (package-desc-vers
-            (cdr (assq 'yasnippet package-alist)))))))
-    (load (expand-file-name name yasnippet-dir))
-    (yas/load-directory (expand-file-name "snippets" yasnippet-dir))
+          (when (package--dir name
+                              (package-version-join
+                               (package-desc-vers pkg))))))
+    (when yasnippet-dir
+      (load (expand-file-name name yasnippet-dir))
+      (yas/load-directory (expand-file-name "snippets" yasnippet-dir)))
     (yas/global-mode)))
 
 
